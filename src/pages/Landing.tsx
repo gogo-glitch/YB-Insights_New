@@ -1,481 +1,466 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import { Link, Navigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { useEffect, useState } from "react";
+import {
+  ArrowRight,
+  Cog,
+  Factory,
+  Zap,
+  Building2,
+  Truck,
+  Cpu,
+  GitBranch,
+  LineChart,
+  Workflow,
+  ShieldCheck,
+  Users,
+  Mail,
+  Phone,
+  MapPin,
+  ArrowUpRight,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, TrendingUp } from "lucide-react";
-import logoDiamond from "@/assets/logo-diamond.png";
-import heroDealImg from "@/assets/hero-deal.jpg";
-import jamieAvatar from "@/assets/jamie-avatar.jpg";
-import avatarAR from "@/assets/avatar-ar.png.asset.json";
-import avatarKL from "@/assets/avatar-kl.png.asset.json";
-import avatarMJ from "@/assets/avatar-mj.png.asset.json";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import logo from "@/assets/grocode-logo.png";
+import heroImg from "@/assets/consulting-hero.jpg";
+import workManufacturing from "@/assets/work-manufacturing.jpg";
+import workEnergy from "@/assets/work-energy.jpg";
+import workConstruction from "@/assets/work-construction.jpg";
 
-import { DMark } from "@/components/DMark";
-
-function FadedGrid({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      className={`absolute inset-0 h-full w-full ${className}`}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
-          <path d="M 80 0 L 0 0 0 80" fill="none" stroke="currentColor" strokeWidth="0.5" />
-        </pattern>
-        <linearGradient id="grid-fade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="white" stopOpacity="0.8" />
-          <stop offset="60%" stopColor="white" stopOpacity="0.2" />
-          <stop offset="100%" stopColor="white" stopOpacity="0" />
-        </linearGradient>
-        <mask id="grid-mask">
-          <rect width="100%" height="100%" fill="url(#grid-fade)" />
-        </mask>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#grid)" mask="url(#grid-mask)" />
-    </svg>
-  );
-}
-
-function Pill({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-      {children}
-    </span>
-  );
-}
-
-const DEAL_NOTIFICATIONS = [
-  { company: "Arcline", amount: "$48,000", time: "just now" },
-  { company: "Vantage Co", amount: "$32,500", time: "2m ago" },
-  { company: "Helix Labs", amount: "$67,200", time: "5m ago" },
-  { company: "Northpeak", amount: "$21,000", time: "8m ago" },
-  { company: "Stratos Inc", amount: "$55,800", time: "12m ago" },
+const NAV = [
+  { label: "About", href: "#about" },
+  { label: "Problems", href: "#problems" },
+  { label: "Industries", href: "#industries" },
+  { label: "Our Work", href: "#work" },
+  { label: "Insights", href: "#insights" },
+  { label: "Contact", href: "#contact" },
 ];
 
-function StackedNotifications() {
-  const [visibleQueue, setVisibleQueue] = useState([0, 1, 2]);
-  const [incomingIdx, setIncomingIdx] = useState<number | null>(null);
-  const [phase, setPhase] = useState<"idle" | "pre" | "animating">("idle");
-  const nextRef = useRef(3);
-  const animationTimeoutRef = useRef<number | null>(null);
-  const cycleIntervalRef = useRef<number | null>(null);
-  const rafRef = useRef<number | null>(null);
+const PROBLEMS = [
+  {
+    icon: Workflow,
+    title: "Operational inefficiency",
+    body: "Bottlenecks, idle assets, and disjointed workflows quietly erode margins. We map the actual flow, not the org chart, and rebuild it.",
+  },
+  {
+    icon: GitBranch,
+    title: "Stalled digital transformation",
+    body: "Pilots that never scale. Tools nobody adopts. We translate engineering reality into systems your teams will actually use.",
+  },
+  {
+    icon: LineChart,
+    title: "Unclear growth path",
+    body: "When revenue plateaus, the answer is rarely 'work harder'. We model the unit economics and surface where growth is hiding.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Risk and compliance drag",
+    body: "Safety, quality, and regulatory load slowing delivery. We design controls that protect without paralysing the business.",
+  },
+  {
+    icon: Cpu,
+    title: "Tech stack chaos",
+    body: "Twelve tools, four spreadsheets, one source of truth nobody trusts. We rationalise the stack and the data model behind it.",
+  },
+  {
+    icon: Users,
+    title: "Org structure misalignment",
+    body: "Brilliant engineers reporting into the wrong functions. We redesign teams around the work, not legacy hierarchy.",
+  },
+];
+
+const INDUSTRIES = [
+  { icon: Factory, name: "Manufacturing", note: "Discrete & process" },
+  { icon: Zap, name: "Energy", note: "Renewables & utilities" },
+  { icon: Building2, name: "Construction", note: "Infra & EPC" },
+  { icon: Truck, name: "Logistics", note: "Supply chain & fleet" },
+  { icon: Cpu, name: "Industrial Tech", note: "IIoT & automation" },
+  { icon: Cog, name: "Heavy Engineering", note: "Capital projects" },
+];
+
+const WORK = [
+  {
+    img: workManufacturing,
+    sector: "Manufacturing",
+    title: "32% throughput lift in 90 days",
+    body: "Re-engineered the production line scheduling for a mid-cap auto-parts manufacturer. Cut changeover time in half.",
+  },
+  {
+    img: workEnergy,
+    sector: "Renewables",
+    title: "Scaling a 400 MW pipeline",
+    body: "Built the commercial operating model for a solar developer entering three new states. Reduced bid-to-PPA cycle by 11 weeks.",
+  },
+  {
+    img: workConstruction,
+    sector: "Construction",
+    title: "Margin recovery on EPC contracts",
+    body: "Diagnosed cost overruns across 14 active projects. Recovered 6.4% margin through procurement and progress-billing redesign.",
+  },
+];
+
+const INSIGHTS = [
+  {
+    tag: "Operations",
+    date: "Apr 2026",
+    title: "Why most lean transformations fail in their second year",
+    excerpt: "The dashboards stay green long after the gains have stopped. Here's how to spot decay before it shows up in the P&L.",
+  },
+  {
+    tag: "Strategy",
+    date: "Mar 2026",
+    title: "The engineer-CEO playbook for raising prices",
+    excerpt: "Technical founders systematically underprice. A four-step framework for repricing without losing your best accounts.",
+  },
+  {
+    tag: "Org Design",
+    date: "Feb 2026",
+    title: "Squad models in heavy industry: what actually transfers",
+    excerpt: "Spotify-style squads weren't built for safety-critical work. What to keep, what to drop, and what to redesign from scratch.",
+  },
+  {
+    tag: "Digital",
+    date: "Jan 2026",
+    title: "ERP migrations: a survival guide for COOs",
+    excerpt: "Eighteen months, three vendors, no business case. The questions to ask before you sign anything.",
+  },
+];
+
+export default function Landing() {
+  const [activeSection, setActiveSection] = useState("about");
 
   useEffect(() => {
-    const startCycle = () => {
-      const nextIdx = nextRef.current % DEAL_NOTIFICATIONS.length;
-      nextRef.current += 1;
-
-      setIncomingIdx(nextIdx);
-      setPhase("pre");
-
-      rafRef.current = requestAnimationFrame(() => {
-        rafRef.current = requestAnimationFrame(() => {
-          setPhase("animating");
-        });
-      });
-
-      animationTimeoutRef.current = window.setTimeout(() => {
-        setVisibleQueue((prev) => [nextIdx, prev[0], prev[1]]);
-        setIncomingIdx(null);
-        setPhase("idle");
-      }, 1680);
-    };
-
-    cycleIntervalRef.current = window.setInterval(startCycle, 4000);
-
-    return () => {
-      if (cycleIntervalRef.current !== null) {
-        window.clearInterval(cycleIntervalRef.current);
-      }
-      if (animationTimeoutRef.current !== null) {
-        window.clearTimeout(animationTimeoutRef.current);
-      }
-      if (rafRef.current !== null) {
-        cancelAnimationFrame(rafRef.current);
-      }
-    };
+    document.documentElement.classList.add("force-light");
+    return () => document.documentElement.classList.remove("force-light");
   }, []);
 
-  const cards = incomingIdx === null ? visibleQueue : [...visibleQueue, incomingIdx];
+  useEffect(() => {
+    const ids = NAV.map((n) => n.href.slice(1));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActiveSection(e.target.id);
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
 
-  const getCardStyle = (notifIdx: number) => {
-    const currentPos = visibleQueue.indexOf(notifIdx);
-    const isIncoming = notifIdx === incomingIdx;
-
-    if (phase === "idle") {
-      if (currentPos === 0) return { yOffset: 0, scale: 0.88, opacity: 1, zIndex: 1, blur: 0 };
-      if (currentPos === 1) return { yOffset: 14, scale: 0.94, opacity: 1, zIndex: 2, blur: 0 };
-      return { yOffset: 28, scale: 1, opacity: 1, zIndex: 3, blur: 0 };
-    }
-
-    if (phase === "pre") {
-      if (isIncoming) return { yOffset: 0, scale: 0.88, opacity: 0, zIndex: 1, blur: 0 };
-      if (currentPos === 0) return { yOffset: 0, scale: 0.88, opacity: 1, zIndex: 1, blur: 0 };
-      if (currentPos === 1) return { yOffset: 14, scale: 0.94, opacity: 1, zIndex: 2, blur: 0 };
-      return { yOffset: 28, scale: 1, opacity: 1, zIndex: 4, blur: 0 };
-    }
-
-    if (isIncoming) return { yOffset: 0, scale: 0.88, opacity: 1, zIndex: 1, blur: 0 };
-    if (currentPos === 0) return { yOffset: 14, scale: 0.94, opacity: 1, zIndex: 2, blur: 0 };
-    if (currentPos === 1) return { yOffset: 28, scale: 1, opacity: 1, zIndex: 3, blur: 0 };
-    return { yOffset: 60, scale: 1.04, opacity: 0, zIndex: 4, blur: 8 };
+  const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    toast.success("Thanks — we'll be in touch within one business day.");
+    (e.currentTarget as HTMLFormElement).reset();
   };
 
   return (
-    <div className="relative h-[110px]" style={{ width: '100%', minWidth: 340 }}>
-      {cards.map((notifIdx) => {
-        const { company, amount, time } = DEAL_NOTIFICATIONS[notifIdx];
-        const { yOffset, scale, opacity, zIndex, blur } = getCardStyle(notifIdx);
-        const shouldTransition = phase === "animating";
-
-        return (
-          <div
-            key={notifIdx}
-            className="absolute bottom-0 left-0 right-0 origin-bottom rounded-xl border border-border bg-card shadow-lg overflow-hidden"
-            style={{
-              zIndex,
-              opacity,
-              filter: `blur(${blur}px)`,
-              transform: `translateY(-${yOffset}px) scale(${scale})`,
-              transition: shouldTransition
-                ? "transform 1680ms cubic-bezier(0.22, 1, 0.36, 1), opacity 1680ms cubic-bezier(0.22, 1, 0.36, 1), filter 1680ms cubic-bezier(0.22, 1, 0.36, 1)"
-                : "none",
-            }}
-          >
-            <div className="flex relative">
-              {/* Orange left bar — inset & rounded */}
-              <div className="absolute left-1.5 top-2 bottom-2 w-1 rounded-full bg-orange-500" />
-              <div className="min-w-0 p-3 pl-6">
-                  <p className="text-[11px] text-muted-foreground">Deal closed · Won · {time}</p>
-                  <p className="truncate text-sm font-semibold">{company} — {amount}</p>
-              </div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-export default function Landing() {
-  const { session, loading } = useAuth();
-  const logo = logoDiamond;
-  
-  const [showNav, setShowNav] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setShowNav(window.scrollY > 100);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  if (!loading && session) return <Navigate to="/dashboard" replace />;
-
-  return (
-    <div className="force-light min-h-screen bg-background text-foreground antialiased">
-
-      {/* Nav — appears on scroll */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 lg:px-20 bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300 ${showNav ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
-        <div className="flex items-center gap-1.5">
-          <DMark className="h-7 w-7 text-foreground" />
-          <span className="font-bold text-lg tracking-tight text-foreground">
-            Dealflow
-          </span>
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Nav */}
+      <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <a href="#about" className="flex items-center gap-2">
+            <img src={logo} alt="Grocode Advisory" width={36} height={36} className="h-9 w-9" />
+            <span className="text-base font-semibold tracking-tight">Grocode Advisory</span>
+          </a>
+          <nav className="hidden items-center gap-7 md:flex">
+            {NAV.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className={`text-sm transition-colors ${
+                  activeSection === item.href.slice(1)
+                    ? "text-foreground font-medium"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+          <Button asChild size="sm" className="hidden md:inline-flex">
+            <a href="#contact">
+              Talk to us <ArrowRight />
+            </a>
+          </Button>
         </div>
-        <div className="flex items-center gap-3">
-          <Link to="/auth">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-              Sign in
-            </Button>
-          </Link>
-          <Link to="/auth">
-            <Button size="sm" className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-5">
-              Start now
-            </Button>
-          </Link>
-        </div>
-      </nav>
+      </header>
 
-      {/* ─── Hero ─── */}
-      <section className="relative overflow-hidden bg-white">
-        <FadedGrid className="text-foreground/[0.04]" />
-        <div className="relative z-10 px-6 md:px-12 lg:px-20 pt-10 pb-20 md:pt-16 md:pb-32">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left — Copy */}
-            <div>
-              <div className="flex items-center gap-2 mb-6">
-                <DMark className="h-9 w-9 text-foreground" />
-                <span className="font-bold text-xl tracking-tight text-foreground">Dealflow</span>
-              </div>
-              <h1 className="font-sans text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.08] mb-6 text-balance">
-                Close more deals<br />with less busywork
-              </h1>
-              <p className="text-lg text-muted-foreground max-w-lg mb-10 leading-relaxed">
-                Dealflow is a single-tenant CRM your team will actually use. Track deals, forecast revenue, and spend time selling — not filling out fields.
-              </p>
-              <div className="flex flex-col sm:flex-row items-start gap-4">
-                <Link to="/auth">
-                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full text-base font-semibold px-8 h-12">
-                    Get started free
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
-                </Link>
-                
-              </div>
-            </div>
-
-            {/* Right — Hero image with deal UI overlay */}
-            <div className="relative">
-              <div className="rounded-2xl aspect-[4/3] overflow-hidden relative">
-                <img src={heroDealImg} alt="Two professionals closing a deal" className="w-full h-full object-cover" />
-                {/* Gradient overlay for contrast */}
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/10 to-transparent" />
-              </div>
-              {/* Floating stacked notifications — bottom right */}
-              <div className="absolute -bottom-6 -right-4 hidden md:block">
-                <StackedNotifications />
-              </div>
-              {/* Pipeline value card — top left */}
-              <div className="absolute -top-3 -left-3 rounded-2xl border border-border bg-card shadow-lg p-4 pb-4 hidden md:block w-[216px]">
-                {/* Mini sparkline chart — smooth curves */}
-                <svg viewBox="0 0 160 52" className="w-full h-12 mb-2">
-                  <defs>
-                    <linearGradient id="pipe-grad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="hsl(170 50% 45%)" stopOpacity="0.15" />
-                      <stop offset="100%" stopColor="hsl(170 50% 45%)" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                  <path d="M0 44 C18 40, 28 38, 42 40 S65 30, 82 32 S105 20, 120 22 S142 14, 155 12 L155 52 L0 52 Z" fill="url(#pipe-grad)" />
-                  <path d="M0 44 C18 40, 28 38, 42 40 S65 30, 82 32 S105 20, 120 22 S142 14, 155 12" fill="none" stroke="hsl(170 50% 45%)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <circle cx="155" cy="12" r="3.5" fill="hsl(170 50% 45%)" />
-                </svg>
-                <div>
-                  <p className="text-xs text-muted-foreground">Pipeline value</p>
-                  <p className="text-lg font-semibold">$284,500</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Features ─── */}
-      <section className="relative z-[2] overflow-hidden rounded-t-[2rem] -mt-8 bg-surface-mint">
-        <div className="relative z-10 px-6 md:px-12 lg:px-20 pt-20 pb-28 md:pt-28 md:pb-36">
-          <div className="max-w-7xl mx-auto">
-            <Pill>Designed for high-touch sales teams</Pill>
-            <h2 className="font-sans text-3xl md:text-4xl font-bold tracking-tight mb-16 max-w-lg mt-5 text-balance">
-              Everything you need. Nothing you don't.
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              {/* Card 1 — 5-minute setup */}
-              {/* Card 1 — 5-minute setup */}
-              <div className="group">
-                <div className="rounded-tl-[2rem] rounded-tr-lg rounded-bl-lg rounded-br-[2rem] p-8 mb-5 aspect-[4/3] flex items-center justify-center overflow-hidden bg-surface-mint-strong">
-                  <svg viewBox="0 0 280 200" className="w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* Three step cards — evenly spaced */}
-                    <rect x="20" y="25" width="75" height="75" rx="12" fill="white" />
-                    <rect x="44" y="42" width="28" height="28" rx="7" fill="hsl(170,30%,88%)" />
-                    <rect x="49" y="50" width="18" height="4" rx="2" fill="hsl(170,15%,15%)" opacity="0.5" />
-                    <rect x="49" y="58" width="10" height="4" rx="2" fill="hsl(170,15%,15%)" opacity="0.25" />
-                    <text x="57" y="92" fill="hsl(170,15%,15%)" fontSize="10" fontWeight="600" fontFamily="sans-serif" textAnchor="middle">Import</text>
-
-                    <rect x="103" y="25" width="75" height="75" rx="12" fill="white" />
-                    <rect x="118" y="48" width="45" height="6" rx="3" fill="hsl(170,30%,88%)" />
-                    <rect x="118" y="48" width="30" height="6" rx="3" fill="hsl(170,15%,15%)" opacity="0.25" />
-                    <rect x="118" y="60" width="45" height="6" rx="3" fill="hsl(170,30%,88%)" />
-                    <rect x="118" y="60" width="38" height="6" rx="3" fill="hsl(170,15%,15%)" opacity="0.15" />
-                    <text x="140" y="92" fill="hsl(170,15%,15%)" fontSize="10" fontWeight="600" fontFamily="sans-serif" textAnchor="middle">Configure</text>
-
-                    <rect x="186" y="25" width="75" height="75" rx="12" fill="white" />
-                    <circle cx="223" cy="55" r="14" fill="hsl(170,30%,88%)" />
-                    <path d="M216 55 L221 60 L231 50" stroke="hsl(170,15%,15%)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                    <text x="223" y="92" fill="hsl(170,15%,15%)" fontSize="10" fontWeight="600" fontFamily="sans-serif" textAnchor="middle">Ready</text>
-
-                    {/* Bottom pipeline bar */}
-                    <rect x="40" y="120" width="200" height="50" rx="12" fill="white" />
-                    <rect x="56" y="136" width="50" height="8" rx="4" fill="hsl(170,15%,15%)" opacity="0.7" />
-                    <rect x="112" y="136" width="35" height="8" rx="4" fill="hsl(170,15%,15%)" opacity="0.35" />
-                    <rect x="153" y="136" width="25" height="8" rx="4" fill="hsl(170,15%,15%)" opacity="0.15" />
-                    <rect x="56" y="152" width="120" height="4" rx="2" fill="hsl(170,30%,88%)" />
-                  </svg>
-                </div>
-                <h3 className="font-sans font-semibold text-lg mb-2">5-minute setup</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">Import contacts, define your stages, start tracking. No consultants, no config theater.</p>
-              </div>
-
-              {/* Card 2 — Team-first design */}
-              <div className="group">
-                <div className="rounded-tl-[2rem] rounded-tr-lg rounded-bl-lg rounded-br-[2rem] p-8 mb-5 aspect-[4/3] flex items-center justify-center overflow-hidden bg-surface-mint-strong">
-                  <svg viewBox="0 0 280 200" className="w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <clipPath id="av1"><circle cx="70" cy="38" r="24" /></clipPath>
-                      <clipPath id="av2"><circle cx="140" cy="38" r="24" /></clipPath>
-                      <clipPath id="av3"><circle cx="210" cy="38" r="24" /></clipPath>
-                    </defs>
-                    {/* Avatars — bigger */}
-                    <circle cx="70" cy="38" r="27" fill="white" />
-                    <circle cx="140" cy="38" r="27" fill="white" />
-                    <circle cx="210" cy="38" r="27" fill="white" />
-                    <image href={avatarAR.url} x="46" y="14" width="48" height="48" clipPath="url(#av1)" preserveAspectRatio="xMidYMid slice" />
-                    <image href={avatarKL.url} x="116" y="14" width="48" height="48" clipPath="url(#av2)" preserveAspectRatio="xMidYMid slice" />
-                    <image href={avatarMJ.url} x="186" y="14" width="48" height="48" clipPath="url(#av3)" preserveAspectRatio="xMidYMid slice" />
-
-                    {/* Deal cards — 2 pairs close together */}
-                    <rect x="55" y="82" width="75" height="36" rx="8" fill="white" />
-                    <rect x="67" y="92" width="40" height="5" rx="2.5" fill="hsl(170,15%,15%)" opacity="0.6" />
-                    <rect x="67" y="102" width="24" height="5" rx="2.5" fill="hsl(170,15%,15%)" opacity="0.2" />
-
-                    <rect x="138" y="82" width="75" height="36" rx="8" fill="white" />
-                    <rect x="150" y="92" width="44" height="5" rx="2.5" fill="hsl(170,15%,15%)" opacity="0.6" />
-                    <rect x="150" y="102" width="30" height="5" rx="2.5" fill="hsl(170,15%,15%)" opacity="0.2" />
-
-                    {/* Row 2 — same positions */}
-                    <rect x="55" y="126" width="75" height="32" rx="8" fill="white" opacity="0.6" />
-                    <rect x="138" y="126" width="75" height="32" rx="8" fill="white" opacity="0.6" />
-
-                    {/* Bottom card — centered, with room */}
-                    <rect x="93" y="166" width="82" height="26" rx="8" fill="white" opacity="0.35" />
-                  </svg>
-                </div>
-                <h3 className="font-sans font-semibold text-lg mb-2">Team-first design</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">See who's working what, spot stalled deals, keep everyone moving — without the micromanagement.</p>
-              </div>
-
-              {/* Card 3 — Forecasts */}
-              <div className="group">
-                <div className="rounded-tl-[2rem] rounded-tr-lg rounded-bl-lg rounded-br-[2rem] p-8 mb-5 aspect-[4/3] flex items-center justify-center overflow-hidden bg-surface-mint-strong">
-                  <svg viewBox="0 0 280 190" className="w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* Grid lines */}
-                    <line x1="50" y1="30" x2="260" y2="30" stroke="hsl(170 30% 76%)" strokeWidth="0.5" />
-                    <line x1="50" y1="65" x2="260" y2="65" stroke="hsl(170 30% 76%)" strokeWidth="0.5" />
-                    <line x1="50" y1="100" x2="260" y2="100" stroke="hsl(170 30% 76%)" strokeWidth="0.5" />
-                    <line x1="50" y1="135" x2="260" y2="135" stroke="hsl(170 30% 76%)" strokeWidth="0.5" />
-
-                    {/* Y-axis labels */}
-                    <text x="44" y="34" fill="hsl(170,15%,15%)" fontSize="9" fontWeight="600" fontFamily="sans-serif" textAnchor="end" opacity="0.5">$80k</text>
-                    <text x="44" y="69" fill="hsl(170,15%,15%)" fontSize="9" fontWeight="600" fontFamily="sans-serif" textAnchor="end" opacity="0.5">$60k</text>
-                    <text x="44" y="104" fill="hsl(170,15%,15%)" fontSize="9" fontWeight="600" fontFamily="sans-serif" textAnchor="end" opacity="0.5">$40k</text>
-                    <text x="44" y="139" fill="hsl(170,15%,15%)" fontSize="9" fontWeight="600" fontFamily="sans-serif" textAnchor="end" opacity="0.5">$20k</text>
-
-                    {/* Bars — bottoms at y=155 baseline, moved down from trend line */}
-                    <rect x="65" y="108" width="22" height="47" rx="4" fill="white" opacity="0.6" />
-                    <rect x="100" y="92" width="22" height="63" rx="4" fill="white" opacity="0.65" />
-                    <rect x="135" y="78" width="22" height="77" rx="4" fill="white" opacity="0.7" />
-                    <rect x="170" y="62" width="22" height="93" rx="4" fill="white" opacity="0.75" />
-                    <rect x="205" y="48" width="22" height="107" rx="4" fill="white" opacity="0.85" />
-                    <rect x="240" y="34" width="22" height="121" rx="4" fill="white" />
-
-                    {/* Trend line — pulled higher away from bar tops */}
-                    <path d="M76 100 C106 82, 121 74, 146 66 S181 50, 216 38 S241 24, 251 20" stroke="hsl(170,15%,15%)" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 4" opacity="0.45" />
-                    <circle cx="251" cy="20" r="4" fill="hsl(170,15%,15%)" opacity="0.55" />
-
-                    {/* X-axis labels */}
-                    <text x="76" y="168" fill="hsl(170,15%,15%)" fontSize="9" fontWeight="600" fontFamily="sans-serif" textAnchor="middle" opacity="0.5">Jan</text>
-                    <text x="111" y="168" fill="hsl(170,15%,15%)" fontSize="9" fontWeight="600" fontFamily="sans-serif" textAnchor="middle" opacity="0.5">Feb</text>
-                    <text x="146" y="168" fill="hsl(170,15%,15%)" fontSize="9" fontWeight="600" fontFamily="sans-serif" textAnchor="middle" opacity="0.5">Mar</text>
-                    <text x="181" y="168" fill="hsl(170,15%,15%)" fontSize="9" fontWeight="600" fontFamily="sans-serif" textAnchor="middle" opacity="0.5">Apr</text>
-                    <text x="216" y="168" fill="hsl(170,15%,15%)" fontSize="9" fontWeight="600" fontFamily="sans-serif" textAnchor="middle" opacity="0.5">May</text>
-                    <text x="251" y="168" fill="hsl(170,15%,15%)" fontSize="9" fontWeight="600" fontFamily="sans-serif" textAnchor="middle" opacity="0.5">Jun</text>
-                  </svg>
-                </div>
-                <h3 className="font-sans font-semibold text-lg mb-2">Forecasts that hold up</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">Weighted pipeline and probability scoring that doesn't require a rev-ops hire to trust.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Social proof ─── */}
-      <section className="relative z-[3] overflow-hidden bg-white rounded-t-[2rem] -mt-8">
-        <FadedGrid className="text-foreground/[0.03]" />
-        <div className="relative z-10 px-6 md:px-12 lg:px-20 pt-20 pb-28 md:pt-28 md:pb-36">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              {/* Stats */}
-              <div>
-                <Pill>Early results</Pill>
-                <h2 className="font-sans text-3xl md:text-4xl font-bold tracking-tight mb-10 mt-5 text-balance">
-                  Teams that use their CRM close more.
-                </h2>
-                <div className="grid grid-cols-2 gap-8">
-                  {[
-                    { stat: "34%", label: "Faster deal velocity" },
-                    { stat: "2.4×", label: "More logged activities" },
-                    { stat: "< 5 min", label: "Average setup time" },
-                    { stat: "91%", label: "Weekly active usage" },
-                  ].map((item) => (
-                    <div key={item.label}>
-                      <p className="font-sans text-3xl md:text-4xl font-bold text-primary mb-1">
-                        {item.stat}
-                      </p>
-                      <p className="text-sm text-muted-foreground">{item.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Testimonial */}
-              <div className="rounded-2xl border border-border bg-card p-8 md:p-10 shadow-sm flex gap-6">
-                <div className="w-1 rounded-full bg-primary flex-shrink-0" />
-                <div>
-                  <div className="mb-5">
-                    <svg className="h-7 w-7 text-foreground/20" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                    </svg>
-                  </div>
-                  <p className="text-lg text-foreground leading-relaxed mb-8 text-balance">
-                    We tried three CRMs before Dealflow. This is the first one my reps didn't abandon by week two.
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <img src={jamieAvatar} alt="Jamie Reeves" className="h-10 w-10 rounded-full object-cover" />
-                    <div>
-                      <p className="text-sm font-semibold">Jamie Reeves</p>
-                      <p className="text-xs text-muted-foreground">VP Sales, Arcline Systems</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Final CTA ─── */}
-      <section className="relative bg-foreground overflow-hidden rounded-t-[2rem] -mt-8 z-[4]">
-        <div className="relative z-10 px-6 md:px-12 lg:px-20 py-20 md:py-28">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="font-sans text-3xl md:text-5xl font-bold tracking-tight mb-5 text-background text-balance">
-              Your pipeline deserves better than a spreadsheet.
-            </h2>
-            <p className="text-background/60 text-lg mb-10 max-w-xl mx-auto text-balance">
-              Free for small teams. Ready in minutes. No procurement process required.
+      {/* Hero / About */}
+      <section id="about" className="relative overflow-hidden">
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-12 lg:py-28">
+          <div className="lg:col-span-7">
+            <span className="inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+              Engineers who consult for engineering businesses
+            </span>
+            <h1 className="mt-6 text-balance text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
+              Growth advisory for the people who actually build things.
+            </h1>
+            <p className="mt-6 max-w-xl text-balance text-lg text-muted-foreground">
+              Grocode is a management consultancy run by engineers. We work with industrial,
+              energy, and infrastructure businesses to fix the operating model — and then
+              compound the result into growth.
             </p>
-            <Link to="/auth">
-              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full text-base font-semibold px-10 h-12">
-                Start closing deals
-                <ArrowRight className="h-4 w-4 ml-1" />
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button asChild size="lg">
+                <a href="#contact">
+                  Start a conversation <ArrowRight />
+                </a>
               </Button>
-            </Link>
+              <Button asChild size="lg" variant="outline">
+                <a href="#work">See our work</a>
+              </Button>
+            </div>
+            <div className="mt-12 grid grid-cols-3 gap-6 border-t border-border/60 pt-8">
+              {[
+                { k: "12+", v: "years on the floor" },
+                { k: "60+", v: "engagements shipped" },
+                { k: "9", v: "industries served" },
+              ].map((s) => (
+                <div key={s.v}>
+                  <div className="text-3xl font-semibold tracking-tight">{s.k}</div>
+                  <div className="mt-1 text-xs uppercase tracking-wide text-muted-foreground">{s.v}</div>
+                </div>
+              ))}
+            </div>
           </div>
+          <div className="lg:col-span-5">
+            <div className="relative overflow-hidden rounded-3xl border border-border/60 shadow-xl">
+              <img
+                src={heroImg}
+                alt="Engineers collaborating in an industrial facility"
+                width={1600}
+                height={1000}
+                className="aspect-[4/5] h-full w-full object-cover"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-background/40 via-transparent to-transparent" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Problems */}
+      <section id="problems" className="border-t border-border/60 bg-secondary/40">
+        <div className="mx-auto max-w-7xl px-6 py-20 lg:py-28">
+          <div className="max-w-2xl">
+            <span className="text-xs font-medium uppercase tracking-widest text-primary">Problems we solve</span>
+            <h2 className="mt-3 text-balance text-4xl font-semibold tracking-tight md:text-5xl">
+              The kind of problems consultants without grease on their hands miss.
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              Every engagement starts the same way: two weeks on site, listening. Then we put numbers
+              on what's broken and a plan on how to fix it.
+            </p>
+          </div>
+          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {PROBLEMS.map((p) => (
+              <Card key={p.title} className="border-border/60 transition-shadow hover:shadow-md">
+                <CardContent className="p-6">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <p.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold tracking-tight">{p.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Industries */}
+      <section id="industries" className="border-t border-border/60">
+        <div className="mx-auto max-w-7xl px-6 py-20 lg:py-28">
+          <div className="flex flex-col items-end justify-between gap-6 md:flex-row">
+            <div className="max-w-2xl">
+              <span className="text-xs font-medium uppercase tracking-widest text-primary">Industries</span>
+              <h2 className="mt-3 text-balance text-4xl font-semibold tracking-tight md:text-5xl">
+                Built for sectors where downtime is measured in dollars per minute.
+              </h2>
+            </div>
+            <p className="max-w-sm text-sm text-muted-foreground">
+              We focus on industries where engineering depth is the difference between
+              advice that lands and advice that gets politely shelved.
+            </p>
+          </div>
+          <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-border/60 bg-border/60 sm:grid-cols-2 lg:grid-cols-3">
+            {INDUSTRIES.map((ind) => (
+              <div
+                key={ind.name}
+                className="group flex items-center gap-4 bg-background p-6 transition-colors hover:bg-secondary/60"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform group-hover:scale-105">
+                  <ind.icon className="h-5 w-5" />
+                </div>
+                <div className="flex-1">
+                  <div className="font-semibold tracking-tight">{ind.name}</div>
+                  <div className="text-xs text-muted-foreground">{ind.note}</div>
+                </div>
+                <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Work */}
+      <section id="work" className="border-t border-border/60 bg-secondary/40">
+        <div className="mx-auto max-w-7xl px-6 py-20 lg:py-28">
+          <div className="max-w-2xl">
+            <span className="text-xs font-medium uppercase tracking-widest text-primary">Our work</span>
+            <h2 className="mt-3 text-balance text-4xl font-semibold tracking-tight md:text-5xl">
+              Outcomes our clients can put on their board deck.
+            </h2>
+          </div>
+          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {WORK.map((w) => (
+              <Card key={w.title} className="group overflow-hidden border-border/60">
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={w.img}
+                    alt={w.title}
+                    width={1024}
+                    height={768}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                <CardContent className="p-6">
+                  <span className="text-xs font-medium uppercase tracking-wider text-primary">{w.sector}</span>
+                  <h3 className="mt-2 text-lg font-semibold tracking-tight">{w.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{w.body}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Insights / Blog */}
+      <section id="insights" className="border-t border-border/60">
+        <div className="mx-auto max-w-7xl px-6 py-20 lg:py-28">
+          <div className="flex items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <span className="text-xs font-medium uppercase tracking-widest text-primary">Insights</span>
+              <h2 className="mt-3 text-balance text-4xl font-semibold tracking-tight md:text-5xl">
+                Field notes from the operating model frontier.
+              </h2>
+            </div>
+            <a href="#" className="hidden text-sm font-medium text-primary hover:underline md:inline-flex">
+              All articles →
+            </a>
+          </div>
+          <div className="mt-14 grid gap-6 md:grid-cols-2">
+            {INSIGHTS.map((post) => (
+              <article
+                key={post.title}
+                className="group flex flex-col justify-between rounded-2xl border border-border/60 p-6 transition-shadow hover:shadow-md"
+              >
+                <div>
+                  <div className="flex items-center gap-3 text-xs">
+                    <span className="rounded-full bg-primary/10 px-2.5 py-1 font-medium text-primary">{post.tag}</span>
+                    <span className="text-muted-foreground">{post.date}</span>
+                  </div>
+                  <h3 className="mt-4 text-balance text-xl font-semibold tracking-tight group-hover:text-primary">
+                    {post.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{post.excerpt}</p>
+                </div>
+                <div className="mt-6 flex items-center gap-2 text-sm font-medium text-primary">
+                  Read article <ArrowRight className="h-4 w-4" />
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="border-t border-border/60 bg-secondary/40">
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-2 lg:py-28">
+          <div>
+            <span className="text-xs font-medium uppercase tracking-widest text-primary">Contact</span>
+            <h2 className="mt-3 text-balance text-4xl font-semibold tracking-tight md:text-5xl">
+              Tell us what's keeping you up at night.
+            </h2>
+            <p className="mt-4 max-w-md text-muted-foreground">
+              We reply within one business day. First call is always on us — bring the
+              messy version of the problem.
+            </p>
+            <div className="mt-10 space-y-5 text-sm">
+              <div className="flex items-start gap-3">
+                <Mail className="mt-0.5 h-5 w-5 text-primary" />
+                <div>
+                  <div className="font-medium">hello@grocodeadvisory.com</div>
+                  <div className="text-muted-foreground">For new engagements & general queries</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Phone className="mt-0.5 h-5 w-5 text-primary" />
+                <div>
+                  <div className="font-medium">+1 (415) 555-0123</div>
+                  <div className="text-muted-foreground">Mon–Fri, 9am–6pm PT</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <MapPin className="mt-0.5 h-5 w-5 text-primary" />
+                <div>
+                  <div className="font-medium">San Francisco · Bengaluru</div>
+                  <div className="text-muted-foreground">On-site engagements globally</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <Card className="border-border/60">
+            <CardContent className="p-6 md:p-8">
+              <form onSubmit={handleContactSubmit} className="space-y-5">
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Name</Label>
+                    <Input id="name" required placeholder="Jane Doe" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="company">Company</Label>
+                    <Input id="company" required placeholder="Acme Industries" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Work email</Label>
+                  <Input id="email" type="email" required placeholder="jane@acme.com" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="message">What are you trying to solve?</Label>
+                  <Textarea id="message" required rows={5} placeholder="A few sentences is plenty." />
+                </div>
+                <Button type="submit" size="lg" className="w-full">
+                  Send message <ArrowRight />
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-foreground border-t border-background/10 px-6 md:px-12 lg:px-20 py-10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-between gap-8">
-          <div className="flex items-center gap-1.5">
-            <DMark className="h-6 w-6 text-background" />
-            <span className="font-bold text-sm tracking-tight text-background">Dealflow</span>
+      <footer className="border-t border-border/60">
+        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-6 py-10 md:flex-row md:items-center">
+          <div className="flex items-center gap-2">
+            <img src={logo} alt="Grocode Advisory" width={28} height={28} className="h-7 w-7" />
+            <span className="text-sm font-medium">© {new Date().getFullYear()} Grocode Advisory</span>
           </div>
-          <div className="flex gap-8 text-sm text-background/50">
-            <Link to="/auth" className="hover:text-background transition-colors">Sign in</Link>
-            <a href="mailto:hello@dealflow.com" className="hover:text-background transition-colors">Contact</a>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+            {NAV.map((n) => (
+              <a key={n.href} href={n.href} className="hover:text-foreground">
+                {n.label}
+              </a>
+            ))}
           </div>
-          <p className="text-xs text-background/40">© {new Date().getFullYear()} Dealflow</p>
         </div>
       </footer>
     </div>
