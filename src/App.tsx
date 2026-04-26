@@ -5,7 +5,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 
-import Landing from "./pages/Landing";
+import MarketingLayout from "./components/marketing/MarketingLayout";
+import Home from "./pages/marketing/Home";
+import Problems from "./pages/marketing/Problems";
+import Industries from "./pages/marketing/Industries";
+import Work from "./pages/marketing/Work";
+import Insights from "./pages/marketing/Insights";
+import Contact from "./pages/marketing/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -18,7 +24,14 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Landing />} />
+            <Route element={<MarketingLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/problems" element={<Problems />} />
+              <Route path="/industries" element={<Industries />} />
+              <Route path="/work" element={<Work />} />
+              <Route path="/insights" element={<Insights />} />
+              <Route path="/contact" element={<Contact />} />
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
