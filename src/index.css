@@ -105,9 +105,9 @@
   }
 
   h1, h2, h3, .font-display {
-    font-family: 'Instrument Serif', Georgia, serif;
-    letter-spacing: -0.015em;
-    font-weight: 400;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    letter-spacing: -0.025em;
+    font-weight: 500;
   }
 
   h1 { @apply text-balance; }
