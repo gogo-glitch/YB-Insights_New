@@ -2,17 +2,17 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight, Compass, Cog, LineChart, Network, Sparkles, Wrench } from "lucide-react";
 
 const stats = [
-  { v: "120+", l: "Engagements delivered" },
-  { v: "18", l: "Industrial sectors" },
-  { v: "$2.4B", l: "Cost & revenue impact" },
+  { v: "120+", l: "Projects Delivery Experience" },
+  { v: "18", l: "Sectors Served" },
+  { v: "90%", l: "Client Satisfaction" },
   { v: "11 yrs", l: "Average partner experience" },
 ];
 
 const principles = [
-  { icon: Compass, title: "Diagnose first", body: "Two weeks of structured listening before a single recommendation." },
-  { icon: Wrench, title: "Build with you", body: "We sit inside your team — not behind a glass wall of decks." },
+  { icon: Compass, title: "Understanding Before Execution", body: "One to Two weeks of product or segment understanding before jumping on any steps." },
+  { icon: Wrench, title: "Build with you", body: "We sit with your team - not behind a glass wall of decks." },
   { icon: LineChart, title: "Measure the lift", body: "Every engagement closes with a baseline and a verified delta." },
-  { icon: Network, title: "Wire the systems", body: "Org, process and software changed together. No orphaned pilots." },
+  { icon: Network, title: "Wire the systems", body: "Org, process and software changed together. No orphaned pilots₹." },
 ];
 
 const Home = () => {
