@@ -12,7 +12,7 @@ const principles = [
   { icon: Compass, title: "Understanding Before Execution", body: "One to Two weeks of product or segment understanding before jumping on any steps." },
   { icon: Wrench, title: "Build with you", body: "We sit with your team - not behind a glass wall of decks." },
   { icon: LineChart, title: "Measure the lift", body: "Every engagement closes with a baseline and a verified delta." },
-  { icon: Network, title: "Wire the systems", body: "Org, process and software changed together. No orphaned pilots₹." },
+  { icon: Network, title: "Wire the systems", body: "Org, process and software changed together. No orphaned pilots." },
 ];
 
 const Home = () => {
@@ -25,14 +25,14 @@ const Home = () => {
           <div className="grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7">
               <p className="reveal text-xs uppercase tracking-[0.22em] text-primary font-medium mb-5 inline-flex items-center gap-2">
-                <Sparkles className="h-3.5 w-3.5 icon-float" /> Growth & management consulting
+                <Sparkles className="h-3.5 w-3.5 icon-float" /> Growth Advisory & Management Consulting Firm
               </p>
               <h1 className="reveal reveal-delay-1 font-display text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.02]">
-                Engineers who run the <em className="text-primary not-italic">consulting room</em>.
+                We are the engineers who are into <em className="text-primary not-italic">consulting space to solve complex problems</em>.
               </h1>
               <p className="reveal reveal-delay-2 mt-6 text-lg md:text-xl text-muted-foreground max-w-xl">
-                Grocode Advisory helps industrial, energy and infrastructure businesses fix
-                broken operations and build the next layer of growth — without the slide-deck theatre.
+                YB Insights helps automotive, industrial, energy and infrastructure businesses to fix
+                broken operations and build the next layer of growth without the slide-deck theatre.
               </p>
               <div className="reveal reveal-delay-3 mt-8 flex flex-wrap items-center gap-3">
                 <Link to="/contact" className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-3 text-sm font-medium hover:bg-primary/90 transition-colors">
@@ -85,11 +85,11 @@ const Home = () => {
           </div>
           <div className="lg:col-span-7 space-y-5 text-lg text-muted-foreground">
             <p>
-              Grocode Advisory was founded by operators who spent a decade building, scaling and turning
-              around engineering-led businesses — from steel plants to grid-scale solar to logistics networks.
+              YB Insights was built by engineers who spent a decade where the real work happens — on manufacturing floors, inside product pipelines, and deep in operations that needed to scale. 
+              We didn't start as consultants. We started as problem solvers. The consulting came later, because companies kept asking us to come back.
             </p>
             <p>
-              We saw the same gap repeatedly: brilliant technical companies handed strategy decks they
+              We were tired of saw the same gap repeatedly: brilliant technical companies handed strategy decks they
               couldn't operationalize. So we built a firm that <span className="text-foreground">does both</span> —
               the diagnosis and the build.
             </p>
