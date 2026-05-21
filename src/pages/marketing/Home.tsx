@@ -28,7 +28,7 @@ const Home = () => {
                 <Sparkles className="h-3.5 w-3.5 icon-float" /> Growth Advisory & Management Consulting Firm
               </p>
               <h1 className="reveal reveal-delay-1 font-display text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.02]">
-                We are the engineers who are into <em className="text-primary not-italic">consulting space to solve complex problems</em>.
+                We are engineers in <em className="text-primary not-italic">the consulting space solving complex problems.</em>.
               </h1>
               <p className="reveal reveal-delay-2 mt-6 text-lg md:text-xl text-muted-foreground max-w-xl">
                 YB Insights helps automotive, industrial, energy and infrastructure businesses to fix
