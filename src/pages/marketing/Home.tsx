@@ -78,7 +78,7 @@ const Home = () => {
       <section className="container py-20 md:py-28">
         <div className="grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-5">
-            <p className="text-xs uppercase tracking-[0.2em] text-primary font-medium mb-4">About Grocode</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-primary font-medium mb-4">About YB Insights</p>
             <h2 className="font-display text-4xl md:text-5xl leading-[1.05]">
               We were the engineers <em className="not-italic text-muted-foreground">in the room</em> when the consultants left.
             </h2>
