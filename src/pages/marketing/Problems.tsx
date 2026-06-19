@@ -49,10 +49,10 @@ const Problems = () => {
           <div className="lg:col-span-7">
             <ol className="space-y-6">
               {[
-                ["01", "Diagnose", "Two weeks. Walk the floor, the books and the codebase. No assumptions."],
-                ["02", "Frame", "A single A3 with the three levers that move the metric you care about."],
-                ["03", "Build", "We sit inside your team and ship the change — process, org and tooling together."],
-                ["04", "Hand off", "Documented, measured, and owned by your people. We leave when you don't need us."],
+                ["01", " Discovery & Diagnostic", "We go deep before we go wide. Two weeks of direct immersion into your operations, financials, and team until we know the root cause."],
+                ["02", "Strategic Framework", "We deliver clarity, not volumes. A focused strategy built around the two or three layers that will actually move your business forward."],
+                ["03", "Execution & Advisory", "This is where most consulting firms stop, We don't. We work embedded inside your team until the strategy is implemented."],
+                ["04", "Transition & Handover", "Documented, measured, and owned by your people. We leave when you don't need us."],
               ].map(([n, t, b]) => (
                 <li key={n} className="reveal grid grid-cols-[auto_1fr] gap-5">
                   <span className="font-display text-3xl text-primary">{n}</span>

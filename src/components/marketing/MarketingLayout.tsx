@@ -1,16 +1,24 @@
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
-import grocodeLogo from "@/assets/grocode-logo.png";
+import advisoryCellWordmark from "@/assets/advisory-cell-wordmark.png";
 
 const NAV = [
   { to: "/", label: "Home" },
   { to: "/problems", label: "Problems" },
   { to: "/industries", label: "Industries" },
-  { to: "/work", label: "Our work" },
+  { to: "/work", label: "Our Work" },
   { to: "/insights", label: "Insights" },
   { to: "/contact", label: "Contact" },
 ];
+
+const WordmarkLogo = () => (
+  <img
+    src={advisoryCellWordmark}
+    alt="Ádvisory Cell"
+    className="h-8 w-auto"
+  />
+);
 
 const MarketingLayout = () => {
   const [open, setOpen] = useState(false);
@@ -26,8 +34,7 @@ const MarketingLayout = () => {
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
         <div className="container flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <img src={grocodeLogo} alt="Grocode Advisory" className="h-8 w-8 rounded-md object-contain" />
-            <span className="font-display text-2xl leading-none">Grocode<span className="text-primary">.</span></span>
+            <WordmarkLogo />
           </Link>
 
           <nav className="hidden md:flex items-center gap-1">
@@ -100,8 +107,7 @@ const MarketingLayout = () => {
         <div className="container py-12 grid gap-10 md:grid-cols-4">
           <div className="md:col-span-2">
             <Link to="/" className="flex items-center gap-2">
-              <img src={grocodeLogo} alt="Grocode Advisory" className="h-8 w-8 rounded-md object-contain" />
-              <span className="font-display text-2xl leading-none">Grocode<span className="text-primary">.</span></span>
+              <WordmarkLogo />
             </Link>
             <p className="mt-4 text-sm text-muted-foreground max-w-md">
               A management consultancy run by engineers. We help industrial,
@@ -119,7 +125,7 @@ const MarketingLayout = () => {
           <div>
             <p className="text-sm font-medium mb-3">Contact</p>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>hello@grocode.example</li>
+              <li>hello@advisorycell.example</li>
               <li>+1 (555) 014-2200</li>
               <li>Bengaluru · Houston · Berlin</li>
             </ul>
@@ -127,7 +133,7 @@ const MarketingLayout = () => {
         </div>
         <div className="border-t border-border/60">
           <div className="container py-5 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
-            <p>© {new Date().getFullYear()} Grocode Advisory. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Advisory Cell. All rights reserved.</p>
             <p className="font-display italic">Engineered counsel for engineered businesses.</p>
           </div>
         </div>

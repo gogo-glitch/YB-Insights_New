@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="56" viewBox="0 0 260 56" role="img" aria-labelledby="title">
+  <title id="title">Ádvisory Cell</title>
+  <rect width="260" height="56" fill="none"/>
+  <path d="M13 7 18 1h5l-6 6z" fill="#111111"/>
+  <text x="0" y="39" font-family="DM Sans, Arial, sans-serif" font-size="34" font-weight="500" letter-spacing="-0.85">
+    <tspan fill="#111111">Advisory </tspan><tspan fill="#f97316">Cell</tspan>
+  </text>
+</svg>

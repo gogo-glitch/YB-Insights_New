@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight, Compass, Cog, LineChart, Network, Sparkles, Wrench } from "lucide-react";
+import { unsplashImage } from "@/lib/unsplash";
 
 const stats = [
   { v: "120+", l: "Projects Delivery Experience" },
@@ -31,7 +32,7 @@ const Home = () => {
                 We are engineers in <em className="text-primary not-italic">the consulting space solving complex problems.</em>
               </h1>
               <p className="reveal reveal-delay-2 mt-6 text-lg md:text-xl text-muted-foreground max-w-xl">
-                YB Insights helps automotive, industrial, energy and infrastructure businesses to fix
+                Advisory cell helps automotive, industrial, energy and infrastructure businesses to fix
                 broken operations and build the next layer of growth without the slide-deck theatre.
               </p>
               <div className="reveal reveal-delay-3 mt-8 flex flex-wrap items-center gap-3">
@@ -47,7 +48,7 @@ const Home = () => {
             <div className="lg:col-span-5 reveal reveal-delay-2">
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-border/60 shadow-2xl shadow-black/5">
                 <img
-                  src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=900&q=80"
+                  src={unsplashImage("photo-1581092918056-0c4c3acd3789", 900)}
                   alt="Engineer reviewing operational dashboards on a factory floor"
                   className="absolute inset-0 w-full h-full object-cover"
                   loading="eager"
@@ -78,14 +79,14 @@ const Home = () => {
       <section className="container py-20 md:py-28">
         <div className="grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-5">
-            <p className="text-xs uppercase tracking-[0.2em] text-primary font-medium mb-4">About YB Insights</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-primary font-medium mb-4">About Advisory Cell</p>
             <h2 className="font-display text-4xl md:text-5xl leading-[1.05]">
               We were the engineers <em className="not-italic text-muted-foreground">in the room</em> when the consultants left.
             </h2>
           </div>
           <div className="lg:col-span-7 space-y-5 text-lg text-muted-foreground">
             <p>
-              YB Insights was built by engineers who spent a decade where the real work happens — on manufacturing floors, inside product pipelines, and deep in operations that needed to scale. 
+              Advisory cell was built by engineers who spent a decade where the real work happens — on manufacturing floors, inside product pipelines, and deep in operations that needed to scale. 
               We didn't start as consultants. We started as problem solvers. The consulting came later, because companies kept asking us to come back.
             </p>
             <p>

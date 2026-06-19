@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight, TrendingUp, Clock, DollarSign } from "lucide-react";
 import PageHero from "@/components/marketing/PageHero";
+import { unsplashImage } from "@/lib/unsplash";
 
 const cases = [
   {
@@ -11,7 +12,7 @@ const cases = [
       { icon: Clock, k: "-42%", l: "Cycle time" },
       { icon: DollarSign, k: "+$14M", l: "Working capital freed" },
     ],
-    img: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1200&q=80",
+    img: unsplashImage("photo-1581092580497-e0d23cbdf1dc", 1200),
   },
   {
     sector: "Renewables Operator",
@@ -21,7 +22,7 @@ const cases = [
       { icon: TrendingUp, k: "+6.4%", l: "Annual yield" },
       { icon: DollarSign, k: "$22M", l: "Recurring revenue" },
     ],
-    img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80",
+    img: unsplashImage("photo-1509391366360-2e959784a276", 1200),
   },
   {
     sector: "EPC Contractor",
@@ -31,7 +32,7 @@ const cases = [
       { icon: TrendingUp, k: "+14 pts", l: "Portfolio margin" },
       { icon: DollarSign, k: "$48M", l: "EBITDA swing" },
     ],
-    img: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80",
+    img: unsplashImage("photo-1541888946425-d81bb19240f5", 1200),
   },
 ];
 
@@ -39,7 +40,7 @@ const Work = () => {
   return (
     <>
       <PageHero
-        eyebrow="Our work"
+        eyebrow="Our Work"
         title={<>Outcomes, not <em className="text-primary not-italic">case studies</em>.</>}
         description="Three engagements, three measured deltas. Names withheld — we share them under NDA on request."
       />

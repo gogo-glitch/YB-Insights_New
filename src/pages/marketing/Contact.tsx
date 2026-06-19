@@ -31,7 +31,7 @@ const Contact = () => {
       <section className="container py-20 grid lg:grid-cols-12 gap-12">
         <aside className="lg:col-span-4 space-y-8">
           {[
-            { icon: Mail, label: "Email", value: "hello@grocode.example" },
+            { icon: Mail, label: "Email", value: "hello@advisorycell.example" },
             { icon: Phone, label: "Phone", value: "+1 (555) 014-2200" },
             { icon: MapPin, label: "Offices", value: "Bengaluru · Houston · Berlin" },
           ].map((c) => (
@@ -88,7 +88,7 @@ const Contact = () => {
           <p className="text-xs uppercase tracking-[0.2em] text-primary font-medium mb-3">Prefer a calendar?</p>
           <h2 className="font-display text-4xl md:text-5xl">Grab any open slot.</h2>
           <a
-            href="mailto:hello@grocode.example"
+            href="mailto:hello@advisorycell.example"
             className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-6 py-3 text-sm font-medium hover:bg-foreground/90 transition-colors"
           >
             Email a partner directly <ArrowUpRight className="h-4 w-4" />
