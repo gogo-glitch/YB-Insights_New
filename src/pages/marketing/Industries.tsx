@@ -1,38 +1,37 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import PageHero from "@/components/marketing/PageHero";
-import { unsplashImage } from "@/lib/unsplash";
 
 const industries = [
   {
     name: "Manufacturing and Industrial",
     body: "Discrete and process manufacturers chasing OEE, throughput and supplier resilience.",
-    img: unsplashImage("photo-1598302936625-6075fbd98dd7", 900),
+    img: "https://unsplash.com/photos/person-in-black-jacket-holding-brown-wooden-rolling-pin-tXJhAFVOHVk",
   },
   {
     name: "Energy & Utilities",
     body: "Generation, T&D and renewables operators modernizing assets and trading desks.",
-    img: unsplashImage("photo-1473341304170-971dccb5ac1e", 900),
+    img: "https://unsplash.com/photos/photo-of-truss-towers-yETqkLnhsUI",
   },
   {
     name: "Construction & Infrastructure",
     body: "EPC contractors and developers fixing project delivery, claims and pre-con margin.",
-    img: unsplashImage("photo-1503387762-592deb58ef4e", 900),
+    img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=80",
   },
   {
     name: "Automotive",
     body: "Automotive OEMs and Tier-1 Suppliers shaping their strategies and expanding into new markets and geography.",
-    img: unsplashImage("photo-1567789884554-0b844b597180", 900),
+    img: "https://unsplash.com/photos/gray-vehicle-being-fixed-inside-factory-using-robot-machines-jHZ70nRk7Ns",
   },
   {
     name: "Semiconductors and Electricals",
     body: "Electrical and Semiconductor companies sharpening GTM, packaging and customer success.",
-    img: unsplashImage("photo-1518770660439-4636190af475", 900),
+    img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
   },
   {
     name: "Heavy Engineering & EPC",
     body: "Capital-intensive shops modernizing PLM, shop-floor data and engineering hours.",
-    img: unsplashImage("photo-1541888946425-d81bb19240f5", 900),
+    img: "https://unsplash.com/photos/construction-of-a-new-gas-pipeline-_N1fVUqFGWI",
   },
 ];
 
@@ -76,7 +75,7 @@ const Industries = () => {
             Don't see your sector? <em className="not-italic text-primary">Ask anyway.</em>
           </h2>
           <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
-            If the problem is engineering-shaped, we can probably help — or honestly tell you we can't.
+            If the problem is engineering shaped, we can probably help or honestly tell you we can't.
           </p>
           <Link to="/contact" className="mt-8 inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-6 py-3 text-sm font-medium hover:bg-foreground/90 transition-colors">
             Tell us about your problem <ArrowUpRight className="h-4 w-4" />
