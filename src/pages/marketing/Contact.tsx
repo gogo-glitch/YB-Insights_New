@@ -31,9 +31,9 @@ const Contact = () => {
       <section className="container py-20 grid lg:grid-cols-12 gap-12">
         <aside className="lg:col-span-4 space-y-8">
           {[
-            { icon: Mail, label: "Email", value: "hello@advisorycell.example" },
-            { icon: Phone, label: "Phone", value: "+1 (555) 014-2200" },
-            { icon: MapPin, label: "Offices", value: "Bengaluru · Houston · Berlin" },
+            { icon: Mail, label: "Email", value: "hello@advisorycell.com" },
+            { icon: Phone, label: "Phone or Whatsapp", value: <><span className="block">+91 9315033001</span><span className="block">+91 9997634339</span></> },
+            { icon: MapPin, label: "Offices", value: "New Delhi" },
           ].map((c) => (
             <div key={c.label} className="reveal flex items-start gap-4">
               <div className="h-11 w-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">

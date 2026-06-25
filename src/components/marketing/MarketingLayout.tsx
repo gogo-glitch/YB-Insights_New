@@ -125,9 +125,10 @@ const MarketingLayout = () => {
           <div>
             <p className="text-sm font-medium mb-3">Contact</p>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>hello@advisorycell.example</li>
-              <li>+1 (555) 014-2200</li>
-              <li>Bengaluru · Houston · Berlin</li>
+              <li>connect@advisorycell.com</li>
+              <li>+91-9315033001</li>
+              <li>+91 9997634339</li>
+              <li>New Delhi</li>
             </ul>
           </div>
         </div>
