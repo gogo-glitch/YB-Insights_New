@@ -1,37 +1,38 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import PageHero from "@/components/marketing/PageHero";
+import { unsplashImage } from "@/lib/unsplash";
 
 const industries = [
   {
     name: "Manufacturing and Industrial",
     body: "Discrete and process manufacturers chasing OEE, throughput and supplier resilience.",
-    img: "https://unsplash.com/photos/person-in-black-jacket-holding-brown-wooden-rolling-pin-tXJhAFVOHVk",
+    img: unsplashImage("photo-1598302936625-6075fbd98dd7", 900),
   },
   {
     name: "Energy & Utilities",
     body: "Generation, T&D and renewables operators modernizing assets and trading desks.",
-    img: "https://unsplash.com/photos/photo-of-truss-towers-yETqkLnhsUI",
+    img: unsplashImage("photo-1509391366360-2e959784a276", 900),
   },
   {
     name: "Construction & Infrastructure",
     body: "EPC contractors and developers fixing project delivery, claims and pre-con margin.",
-    img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=80",
+    img: unsplashImage("photo-1503387762-592deb58ef4e", 900),
   },
   {
     name: "Automotive",
     body: "Automotive OEMs and Tier-1 Suppliers shaping their strategies and expanding into new markets and geography.",
-    img: "https://unsplash.com/photos/gray-vehicle-being-fixed-inside-factory-using-robot-machines-jHZ70nRk7Ns",
+    img: "https://plus.unsplash.com/premium_photo-1661877074629-a74292667b72?auto=format&fit=crop&w=900&q=80",
   },
   {
     name: "Semiconductors and Electricals",
     body: "Electrical and Semiconductor companies sharpening GTM, packaging and customer success.",
-    img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    img: unsplashImage("photo-1518770660439-4636190af475", 900),
   },
   {
     name: "Heavy Engineering & EPC",
     body: "Capital-intensive shops modernizing PLM, shop-floor data and engineering hours.",
-    img: "https://unsplash.com/photos/construction-of-a-new-gas-pipeline-_N1fVUqFGWI",
+    img: unsplashImage("photo-1541888946425-d81bb19240f5", 900),
   },
 ];
 

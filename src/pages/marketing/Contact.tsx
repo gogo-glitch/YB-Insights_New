@@ -31,8 +31,8 @@ const Contact = () => {
       <section className="container py-20 grid lg:grid-cols-12 gap-12">
         <aside className="lg:col-span-4 space-y-8">
           {[
-            { icon: Mail, label: "Email", value: "hello@advisorycell.com" },
-            { icon: Phone, label: "Phone or Whatsapp", value: <><span className="block">+91 9315033001</span><span className="block">+91 9997634339</span></> },
+            { icon: Mail, label: "Email", value: "connect@advisorycell.com" },
+            { icon: Phone, label: "Phone or Whatsapp", value: "+91-9315033001, +91-9997634339" },
             { icon: MapPin, label: "Offices", value: "New Delhi" },
           ].map((c) => (
             <div key={c.label} className="reveal flex items-start gap-4">
@@ -49,7 +49,7 @@ const Contact = () => {
           <div className="rounded-2xl border border-border/60 bg-secondary/40 p-6">
             <p className="font-display text-2xl">Office hours</p>
             <p className="text-sm text-muted-foreground mt-2">
-              Partners take inbound calls Tue–Thu, 09:00–17:00 local. Email gets a same-day reply.
+              Partners take inbound calls Tue–Thu, 09:00–21:00 local. Email gets a same-day reply.
             </p>
           </div>
         </aside>
