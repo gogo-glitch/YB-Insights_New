@@ -22,7 +22,7 @@ const industries = [
   {
     name: "Automotive",
     body: "Automotive OEMs and Tier-1 Suppliers shaping their strategies and expanding into new markets and geography.",
-    img: "https://plus.unsplash.com/premium_photo-1661877074629-a74292667b72?auto=format&fit=crop&w=900&q=80",
+    img: "https://plus.unsplash.com/premium_photo-1661877074629-a74292667b72?auto=format&fit=crop&fm=jpg&w=900&q=80",
   },
   {
     name: "Semiconductors and Electricals",
